@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Star, Heart, Check } from "lucide-react";
 import { Product } from "@/types";
 import { useCartStore } from "@/store/cart";
@@ -45,25 +46,33 @@ export default function ProductCard({
 
   return (
     <div className={`group ${isOutOfStock ? "opacity-85" : ""}`}>
-      <div
-        onClick={() => onSelect?.(product.id)}
-        className="relative overflow-hidden bg-white/60 aspect-[3/4] cursor-pointer"
-      >
-        <img
-          src={product.image}
-          alt={product.name}
-          className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06] ${
-            isOutOfStock ? "grayscale-[25%]" : ""
-          }`}
-        />
+      <div className="relative overflow-hidden bg-white/60 aspect-[3/4]">
+        <Link
+          href={`/product/${product.id}`}
+          onClick={(e) => {
+            if (onSelect) {
+              e.preventDefault();
+              onSelect(product.id);
+            }
+          }}
+          className="block w-full h-full cursor-pointer"
+        >
+          <img
+            src={product.image}
+            alt={product.name}
+            className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06] ${
+              isOutOfStock ? "grayscale-[25%]" : ""
+            }`}
+          />
+        </Link>
         {isOutOfStock ? (
-          <span className="absolute top-3 left-3 text-[11px] tracking-widest uppercase px-2.5 py-1 bg-charcoal text-blush font-medium">
+          <span className="absolute top-3 left-3 text-[11px] tracking-widest uppercase px-2.5 py-1 bg-charcoal text-blush font-medium pointer-events-none">
             Sold Out
           </span>
         ) : (
           product.badge && (
             <span
-              className={`absolute top-3 left-3 text-[11px] tracking-wide px-2.5 py-1 text-white ${
+              className={`absolute top-3 left-3 text-[11px] tracking-wide px-2.5 py-1 text-white pointer-events-none ${
                 product.badge === "Sale" ? "bg-coral" : "bg-charcoal"
               }`}
             >
@@ -77,7 +86,7 @@ export default function ProductCard({
             toggleWishlist(product.id);
           }}
           aria-label="Toggle wishlist"
-          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:scale-105 transition-transform"
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:scale-105 transition-transform z-10"
         >
           <Heart
             size={15}
@@ -90,11 +99,19 @@ export default function ProductCard({
         <p className="text-[11px] tracking-wide text-ink/50 mb-1">
           {product.category}
         </p>
-        <h3
-          onClick={() => onSelect?.(product.id)}
-          className="font-serif text-[15px] text-charcoal leading-snug mb-1 cursor-pointer hover:text-champagne transition-colors"
-        >
-          {product.name}
+        <h3 className="font-serif text-[15px] text-charcoal leading-snug mb-1">
+          <Link
+            href={`/product/${product.id}`}
+            onClick={(e) => {
+              if (onSelect) {
+                e.preventDefault();
+                onSelect(product.id);
+              }
+            }}
+            className="cursor-pointer hover:text-champagne transition-colors"
+          >
+            {product.name}
+          </Link>
         </h3>
         <div className="flex items-center gap-1 mb-2 text-[12px] text-ink/60">
           <Star size={12} className="fill-champagne text-champagne" />

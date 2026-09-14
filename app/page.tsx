@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import PromoTicker from "@/components/PromoTicker";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
@@ -12,18 +13,36 @@ import Reviews from "@/components/Reviews";
 import Footer from "@/components/Footer";
 import { Product } from "@/types";
 
-export default function Home() {
+function StorefrontContent() {
+  const searchParams = useSearchParams();
+  const urlCategory = searchParams.get("category");
+  const urlSearch = searchParams.get("search");
+
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState("All");
-  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState(urlCategory || "All");
+  const [search, setSearch] = useState(urlSearch || "");
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const [filters, setFilters] = useState<Filters>({
     priceRange: [0, 999999],
     size: null,
     sort: "",
   });
+
+  useEffect(() => {
+    if (urlCategory) {
+      setCategory(urlCategory);
+      const el = document.getElementById("shop");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [urlCategory]);
+
+  useEffect(() => {
+    if (urlSearch !== null) {
+      setSearch(urlSearch);
+    }
+  }, [urlSearch]);
 
   useEffect(() => {
     setLoading(true);
@@ -56,6 +75,12 @@ export default function Home() {
       });
   }, [category, search, filters]);
 
+  const handleCategorySelect = (newCat: string) => {
+    setCategory(newCat);
+    const el = document.getElementById("shop");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   const gridTitle =
     category === "All" ? "Trending This Week" : category;
 
@@ -64,15 +89,15 @@ export default function Home() {
       <PromoTicker />
       <Header
         onSearch={setSearch}
-        onCategorySelect={setCategory}
+        onCategorySelect={handleCategorySelect}
         activeCategory={category}
         categories={categories.length > 0 ? categories : undefined}
       />
       <Hero
-        onShopHeels={() => setCategory("Heels")}
-        onShopKhussa={() => setCategory("Khussa & Flats")}
+        onShopHeels={() => handleCategorySelect("Heels")}
+        onShopKhussa={() => handleCategorySelect("Khussa & Flats")}
       />
-      <CategoryScroller onSelect={setCategory} />
+      <CategoryScroller onSelect={handleCategorySelect} />
       <FilterBar filters={filters} onChange={setFilters} />
       <ProductGrid
         products={products}
@@ -87,5 +112,19 @@ export default function Home() {
         onClose={() => setSelectedProductId(null)}
       />
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-blush flex items-center justify-center font-serif text-charcoal">
+          Loading SOLEVÉ…
+        </div>
+      }
+    >
+      <StorefrontContent />
+    </Suspense>
   );
 }

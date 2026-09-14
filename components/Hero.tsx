@@ -29,13 +29,21 @@ export default function Hero({
         </p>
         <div className="flex flex-wrap gap-4">
           <button
-            onClick={onShopHeels}
+            onClick={() => {
+              onShopHeels();
+              const el = document.getElementById("shop");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
             className="bg-champagne text-charcoal px-7 py-3.5 text-[13px] tracking-wide hover:bg-blush transition-colors"
           >
             Shop Heels
           </button>
           <button
-            onClick={onShopKhussa}
+            onClick={() => {
+              onShopKhussa();
+              const el = document.getElementById("shop");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
             className="border border-blush/40 px-7 py-3.5 text-[13px] tracking-wide hover:border-blush transition-colors"
           >
             Explore Festive Khussa

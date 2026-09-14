@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { Search, Heart, ShoppingBag, ChevronDown, X } from "lucide-react";
 import { useCartStore } from "@/store/cart";
 import { useWishlistStore } from "@/store/wishlist";
@@ -27,11 +28,32 @@ export default function Header({
   activeCategory: string;
   categories?: string[];
 }) {
+  const pathname = usePathname();
+  const router = useRouter();
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const itemCount = useCartStore((s) => s.itemCount());
   const openCart = useCartStore((s) => s.open);
   const wishlistCount = useWishlistStore((s) => s.ids.length);
+
+  const handleCategoryClick = (cat: string) => {
+    if (pathname === "/") {
+      onCategorySelect(cat);
+      const el = document.getElementById("shop");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      router.push(`/?category=${encodeURIComponent(cat)}#shop`);
+    }
+  };
+
+  const handleLogoClick = () => {
+    if (pathname === "/") {
+      onCategorySelect("All");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      router.push("/");
+    }
+  };
 
   return (
     <header className="sticky top-0 z-40 bg-blush/95 backdrop-blur border-b border-charcoal/10">
@@ -39,19 +61,19 @@ export default function Header({
         <div className="flex items-center justify-between h-20">
           <Link
             href="/"
-            onClick={() => onCategorySelect("All")}
+            onClick={handleLogoClick}
             className="font-serif text-2xl md:text-[28px] tracking-wide text-charcoal"
           >
             SOLEVÉ
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-6 text-[13px] tracking-wide text-ink/80">
+          <nav className="hidden lg:flex items-center gap-5 text-[13px] tracking-wide text-ink/80">
             {categories.map((cat) => (
               <button
                 key={cat}
-                onClick={() => onCategorySelect(cat)}
+                onClick={() => handleCategoryClick(cat)}
                 className={`py-2 border-b-2 transition-colors ${
-                  activeCategory === cat
+                  activeCategory === cat && pathname === "/"
                     ? "border-champagne text-charcoal"
                     : "border-transparent hover:text-charcoal"
                 }`}
@@ -59,15 +81,44 @@ export default function Header({
                 {cat}
               </button>
             ))}
+            <span className="text-charcoal/20">|</span>
             <Link
               href="/about"
-              className="py-2 border-b-2 border-transparent hover:text-charcoal text-ink/70"
+              className={`py-2 border-b-2 transition-colors ${
+                pathname === "/about"
+                  ? "border-champagne text-charcoal"
+                  : "border-transparent text-ink/70 hover:text-charcoal"
+              }`}
             >
               Our Story
             </Link>
             <Link
+              href="/size-guide"
+              className={`py-2 border-b-2 transition-colors ${
+                pathname === "/size-guide"
+                  ? "border-champagne text-charcoal"
+                  : "border-transparent text-ink/70 hover:text-charcoal"
+              }`}
+            >
+              Size Guide
+            </Link>
+            <Link
+              href="/track"
+              className={`py-2 border-b-2 transition-colors ${
+                pathname === "/track"
+                  ? "border-champagne text-charcoal"
+                  : "border-transparent text-ink/70 hover:text-charcoal"
+              }`}
+            >
+              Track Order
+            </Link>
+            <Link
               href="/contact"
-              className="py-2 border-b-2 border-transparent hover:text-charcoal text-ink/70"
+              className={`py-2 border-b-2 transition-colors ${
+                pathname === "/contact"
+                  ? "border-champagne text-charcoal"
+                  : "border-transparent text-ink/70 hover:text-charcoal"
+              }`}
             >
               Contact
             </Link>
@@ -86,6 +137,14 @@ export default function Header({
             </button>
             <button
               aria-label="Wishlist"
+              onClick={() => {
+                if (pathname === "/") {
+                  const el = document.getElementById("shop");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  router.push("/#shop");
+                }
+              }}
               className="relative hover:opacity-60 transition-opacity"
             >
               <Heart size={20} />
@@ -111,28 +170,40 @@ export default function Header({
         </div>
 
         {searchOpen && (
-          <div className="pb-4 animate-fade-in">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (pathname === "/") {
+                onSearch(query);
+                const el = document.getElementById("shop");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+              } else {
+                router.push(`/?search=${encodeURIComponent(query)}#shop`);
+              }
+            }}
+            className="pb-4 animate-fade-in"
+          >
             <input
               autoFocus
               type="text"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
-                onSearch(e.target.value);
+                if (pathname === "/") onSearch(e.target.value);
               }}
-              placeholder="Search for heels, khussa, bags…"
+              placeholder="Search for heels, khussa, bags… (Press Enter)"
               className="w-full bg-white border border-charcoal/15 rounded-full px-5 py-3 text-sm focus:border-champagne outline-none"
             />
-          </div>
+          </form>
         )}
 
         <nav className="lg:hidden flex items-center gap-5 overflow-x-auto no-scrollbar pb-3 text-[13px] text-ink/80">
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => onCategorySelect(cat)}
+              onClick={() => handleCategoryClick(cat)}
               className={`whitespace-nowrap py-1 border-b-2 ${
-                activeCategory === cat
+                activeCategory === cat && pathname === "/"
                   ? "border-champagne text-charcoal"
                   : "border-transparent"
               }`}
@@ -140,11 +211,30 @@ export default function Header({
               {cat}
             </button>
           ))}
+          <span className="text-charcoal/20">|</span>
           <Link
             href="/about"
             className="whitespace-nowrap py-1 border-b-2 border-transparent text-ink/70"
           >
             Our Story
+          </Link>
+          <Link
+            href="/size-guide"
+            className="whitespace-nowrap py-1 border-b-2 border-transparent text-ink/70"
+          >
+            Size Guide
+          </Link>
+          <Link
+            href="/track"
+            className="whitespace-nowrap py-1 border-b-2 border-transparent text-ink/70"
+          >
+            Track Order
+          </Link>
+          <Link
+            href="/returns"
+            className="whitespace-nowrap py-1 border-b-2 border-transparent text-ink/70"
+          >
+            Returns
           </Link>
           <Link
             href="/contact"

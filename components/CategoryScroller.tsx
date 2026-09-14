@@ -49,7 +49,11 @@ export default function CategoryScroller({
         {quickCategories.map((c) => (
           <button
             key={c.label}
-            onClick={() => onSelect(c.category)}
+            onClick={() => {
+              onSelect(c.category);
+              const el = document.getElementById("shop");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
             className="flex flex-col items-center gap-3 shrink-0 group"
           >
             <span className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border border-charcoal/10 transition-transform duration-300 group-hover:scale-105">
