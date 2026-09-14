@@ -64,6 +64,8 @@ export default function ProductModal({
 
   if (!productId) return null;
 
+  const isOutOfStock = product?.inStock === false;
+
   const discount =
     product && product.originalPrice > product.price
       ? Math.round(
@@ -73,7 +75,7 @@ export default function ProductModal({
       : 0;
 
   const handleAddToCart = () => {
-    if (!product) return;
+    if (!product || isOutOfStock) return;
     const size = selectedSize ?? product.sizes[0] ?? 0;
     addItem({
       productId: product.id,
@@ -124,16 +126,24 @@ export default function ProductModal({
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className={`w-full h-full object-cover ${
+                  isOutOfStock ? "grayscale-[25%]" : ""
+                }`}
               />
-              {product.badge && (
-                <span
-                  className={`absolute top-4 left-4 text-[11px] tracking-wide px-2.5 py-1 text-white ${
-                    product.badge === "Sale" ? "bg-coral" : "bg-charcoal"
-                  }`}
-                >
-                  {product.badge === "Sale" ? `-${discount}%` : "New"}
+              {isOutOfStock ? (
+                <span className="absolute top-4 left-4 text-[11px] tracking-widest uppercase px-3 py-1 bg-charcoal text-blush font-medium">
+                  Sold Out
                 </span>
+              ) : (
+                product.badge && (
+                  <span
+                    className={`absolute top-4 left-4 text-[11px] tracking-wide px-2.5 py-1 text-white ${
+                      product.badge === "Sale" ? "bg-coral" : "bg-charcoal"
+                    }`}
+                  >
+                    {product.badge === "Sale" ? `-${discount}%` : "New"}
+                  </span>
+                )
               )}
             </div>
 
@@ -196,9 +206,12 @@ export default function ProductModal({
                       {product.sizes.map((size) => (
                         <button
                           key={size}
+                          disabled={isOutOfStock}
                           onClick={() => setSelectedSize(size)}
                           className={`text-xs w-9 h-9 border transition-colors ${
-                            selectedSize === size
+                            isOutOfStock
+                              ? "border-charcoal/10 text-charcoal/30 cursor-not-allowed bg-transparent"
+                              : selectedSize === size
                               ? "border-charcoal bg-charcoal text-blush font-medium"
                               : "border-charcoal/20 text-ink/70 hover:border-charcoal/60 bg-white"
                           }`}
@@ -213,14 +226,19 @@ export default function ProductModal({
 
               <div className="flex gap-3 pt-4 border-t border-charcoal/10">
                 <button
+                  disabled={isOutOfStock}
                   onClick={handleAddToCart}
                   className={`flex-1 py-3 text-[13px] tracking-wide transition-colors flex items-center justify-center gap-2 ${
-                    justAdded
+                    isOutOfStock
+                      ? "bg-charcoal/20 text-charcoal/50 cursor-not-allowed border border-charcoal/10"
+                      : justAdded
                       ? "bg-ink text-blush"
                       : "bg-charcoal text-blush hover:bg-ink"
                   }`}
                 >
-                  {justAdded ? (
+                  {isOutOfStock ? (
+                    "Sold Out"
+                  ) : justAdded ? (
                     <>
                       <Check size={15} /> Added to bag
                     </>

@@ -95,6 +95,12 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    if (product.inStock === false) {
+      return NextResponse.json(
+        { errors: { items: `"${product.name}" is currently out of stock. Please remove it to proceed.` } },
+        { status: 400 }
+      );
+    }
     subtotal += product.price * item.quantity;
   }
 

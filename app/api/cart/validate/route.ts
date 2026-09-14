@@ -25,6 +25,10 @@ export async function POST(request: NextRequest) {
       issues.push(`Product ${item.productId} no longer exists.`);
       continue;
     }
+    if (product.inStock === false) {
+      issues.push(`${product.name} is currently out of stock.`);
+      continue;
+    }
     if (product.sizes.length > 0 && !product.sizes.includes(item.size)) {
       issues.push(`${product.name} is not available in size ${item.size}.`);
       continue;

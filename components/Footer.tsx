@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ChevronDown, X, Instagram, Facebook } from "lucide-react";
 
 const FAQS = [
@@ -109,33 +110,75 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12 text-[13px]">
           <div>
             <p className="text-blush/50 mb-3 tracking-wide">Get in touch</p>
-            <p className="text-blush/80 mb-1">+92-42-111-786-000</p>
-            <p className="text-blush/80">care@soleve.pk</p>
+            <p className="text-blush/80 mb-1">+92 (42) 3575-8921</p>
+            <p className="text-blush/80 mb-1">WhatsApp: +92 300 8492211</p>
+            <p className="text-blush/80 mb-1">care@soleve.pk</p>
+            <p className="text-blush/60 text-[11px] mt-2">
+              14-L, M.M. Alam Rd, Gulberg III, Lahore
+            </p>
           </div>
           <div>
-            <p className="text-blush/50 mb-3 tracking-wide">Information</p>
-            <button
-              onClick={() => setTrackingOpen(true)}
+            <p className="text-blush/50 mb-3 tracking-wide">Customer Care</p>
+            <Link
+              href="/track"
               className="block text-blush/80 hover:text-champagne mb-2 text-left"
             >
               Track Your Order
-            </button>
-            <button
-              onClick={() => setSizeGuideOpen(true)}
-              className="block text-blush/80 hover:text-champagne text-left"
+            </Link>
+            <Link
+              href="/size-guide"
+              className="block text-blush/80 hover:text-champagne mb-2 text-left"
             >
               Size Guide
-            </button>
+            </Link>
+            <Link
+              href="/returns"
+              className="block text-blush/80 hover:text-champagne text-left"
+            >
+              14-Day Returns & Exchange
+            </Link>
           </div>
           <div>
             <p className="text-blush/50 mb-3 tracking-wide">About</p>
-            <p className="text-blush/80 mb-2">Our Story</p>
-            <p className="text-blush/80">Contact Us</p>
+            <Link
+              href="/about"
+              className="block text-blush/80 hover:text-champagne mb-2 text-left"
+            >
+              Our Story & Karigars
+            </Link>
+            <Link
+              href="/contact"
+              className="block text-blush/80 hover:text-champagne mb-2 text-left"
+            >
+              Contact Us
+            </Link>
+            <Link
+              href="/contact"
+              className="block text-blush/80 hover:text-champagne text-left"
+            >
+              Lahore Flagship Atelier
+            </Link>
           </div>
           <div>
             <p className="text-blush/50 mb-3 tracking-wide">Explore</p>
-            <p className="text-blush/80 mb-2">New In</p>
-            <p className="text-blush/80">Clearance Sale</p>
+            <Link
+              href="/#shop"
+              className="block text-blush/80 hover:text-champagne mb-2 text-left"
+            >
+              Trending Footwear
+            </Link>
+            <Link
+              href="/#shop"
+              className="block text-blush/80 hover:text-champagne mb-2 text-left"
+            >
+              Festive Khussa & Flats
+            </Link>
+            <Link
+              href="/checkout"
+              className="block text-blush/80 hover:text-champagne text-left"
+            >
+              Express Checkout (COD)
+            </Link>
           </div>
           <div className="col-span-2 md:col-span-1">
             <p className="text-blush/50 mb-3 tracking-wide">

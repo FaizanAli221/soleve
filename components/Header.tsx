@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Search, Heart, ShoppingBag, ChevronDown, X } from "lucide-react";
 import { useCartStore } from "@/store/cart";
 import { useWishlistStore } from "@/store/wishlist";
@@ -36,14 +37,15 @@ export default function Header({
     <header className="sticky top-0 z-40 bg-blush/95 backdrop-blur border-b border-charcoal/10">
       <div className="max-w-7xl mx-auto px-5 md:px-8">
         <div className="flex items-center justify-between h-20">
-          <button
+          <Link
+            href="/"
             onClick={() => onCategorySelect("All")}
             className="font-serif text-2xl md:text-[28px] tracking-wide text-charcoal"
           >
             SOLEVÉ
-          </button>
+          </Link>
 
-          <nav className="hidden lg:flex items-center gap-7 text-[13px] tracking-wide text-ink/80">
+          <nav className="hidden lg:flex items-center gap-6 text-[13px] tracking-wide text-ink/80">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -57,6 +59,18 @@ export default function Header({
                 {cat}
               </button>
             ))}
+            <Link
+              href="/about"
+              className="py-2 border-b-2 border-transparent hover:text-charcoal text-ink/70"
+            >
+              Our Story
+            </Link>
+            <Link
+              href="/contact"
+              className="py-2 border-b-2 border-transparent hover:text-charcoal text-ink/70"
+            >
+              Contact
+            </Link>
           </nav>
 
           <div className="flex items-center gap-4 md:gap-5 text-charcoal">
@@ -126,6 +140,18 @@ export default function Header({
               {cat}
             </button>
           ))}
+          <Link
+            href="/about"
+            className="whitespace-nowrap py-1 border-b-2 border-transparent text-ink/70"
+          >
+            Our Story
+          </Link>
+          <Link
+            href="/contact"
+            className="whitespace-nowrap py-1 border-b-2 border-transparent text-ink/70"
+          >
+            Contact
+          </Link>
         </nav>
       </div>
     </header>

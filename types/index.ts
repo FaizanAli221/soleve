@@ -20,6 +20,7 @@ export interface Product {
   sizes: number[];
   badge?: "New" | "Sale";
   isNew?: boolean;
+  inStock?: boolean;
   popularity: number; // used for "sort by popularity"
   description: string;
 }

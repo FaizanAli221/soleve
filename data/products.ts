@@ -16,6 +16,7 @@ export const products: Product[] = [
     image: img("photo-1543163521-1bf539c55dd2"),
     sizes: [36, 37, 38, 39, 40, 41],
     badge: "Sale",
+    inStock: true,
     popularity: 98,
     description:
       "A slender champagne-gold stiletto finished with hand-burnished leather and a whisper-thin ankle strap. Built for evenings that ask you to stand out.",
@@ -31,11 +32,12 @@ export const products: Product[] = [
     reviewCount: 64,
     image: img("photo-1596703263926-eb0762ee17e4"),
     sizes: [36, 37, 38, 39, 40],
-    badge: "New",
-    isNew: true,
+    badge: "Sale",
+    isNew: false,
+    inStock: false,
     popularity: 81,
     description:
-      "Near-black satin upper on a walkable block heel — the quiet confidence piece in every capsule wardrobe.",
+      "Near-black satin upper on a walkable block heel — the quiet confidence piece in every capsule wardrobe. Currently sold out for restocking.",
   },
   {
     id: "p03",
@@ -46,12 +48,13 @@ export const products: Product[] = [
     originalPrice: 7000,
     rating: 4.8,
     reviewCount: 212,
-    image: img("photo-1543508282-6319a3e2621f"),
+    image: img("photo-1608256246200-53e635b5b65f"),
     sizes: [36, 37, 38, 39, 40, 41],
     badge: "Sale",
+    inStock: true,
     popularity: 95,
     description:
-      "Hand-worked zari thread on soft charcoal suede — a festive khussa reimagined with a champagne trim.",
+      "Hand-worked zari thread on soft charcoal suede by master karigars of Lahore — a festive khussa reimagined with a champagne trim.",
   },
   {
     id: "p04",
@@ -66,6 +69,7 @@ export const products: Product[] = [
     sizes: [36, 37, 38, 39, 40],
     badge: "New",
     isNew: true,
+    inStock: true,
     popularity: 70,
     description:
       "A pearl-studded mojari flat in blush leather, made for long days that still call for elegance.",
@@ -79,9 +83,10 @@ export const products: Product[] = [
     originalPrice: 9000,
     rating: 4.8,
     reviewCount: 156,
-    image: img("photo-1523293182086-7651a899d37f"),
+    image: img("photo-1562273138-f46be4ebdf33"),
     sizes: [36, 37, 38, 39, 40, 41],
     badge: "Sale",
+    inStock: true,
     popularity: 90,
     description:
       "Fine leather straps crossing over a low champagne heel — light enough for daylight, polished enough for dinner.",
@@ -97,6 +102,7 @@ export const products: Product[] = [
     reviewCount: 39,
     image: img("photo-1595950653106-6c9ebd614d3a"),
     sizes: [37, 38, 39, 40, 41],
+    inStock: true,
     popularity: 58,
     description:
       "A woven linen wedge in warm blush, built for coastal afternoons and long lunches.",
@@ -110,10 +116,11 @@ export const products: Product[] = [
     originalPrice: 7400,
     rating: 4.9,
     reviewCount: 18,
-    image: img("photo-1595341888016-a392ef81b7de"),
+    image: img("photo-1535043934128-cf0b28d52f95"),
     sizes: [36, 37, 38, 39, 40],
     badge: "New",
     isNew: true,
+    inStock: true,
     popularity: 88,
     description:
       "Part of the Summer '26 arrivals — hand-set crystal detailing on an ivory leather sandal.",
@@ -127,10 +134,11 @@ export const products: Product[] = [
     originalPrice: 6600,
     rating: 4.7,
     reviewCount: 11,
-    image: img("photo-1465101046530-73398c7f28ca"),
+    image: img("photo-1575537302964-96cd47c06b1b"),
     sizes: [36, 37, 38, 39, 40, 41],
     badge: "New",
     isNew: true,
+    inStock: true,
     popularity: 76,
     description:
       "A backless loafer in soft champagne leather — the season's answer to the smart-casual heel.",
@@ -144,9 +152,10 @@ export const products: Product[] = [
     originalPrice: 16000,
     rating: 4.8,
     reviewCount: 73,
-    image: img("photo-1600185365483-26d7a4cc7519"),
+    image: img("photo-1584917865442-de89df76afd3"),
     sizes: [],
     badge: "Sale",
+    inStock: true,
     popularity: 84,
     description:
       "Full-grain charcoal leather tote with a champagne-gold clasp — structured enough for the office, soft enough for everything else.",
@@ -160,8 +169,9 @@ export const products: Product[] = [
     originalPrice: 8900,
     rating: 4.6,
     reviewCount: 52,
-    image: img("photo-1590874103328-eac38a683ce7"),
+    image: img("photo-1591561954557-26941169b49e"),
     sizes: [],
+    inStock: true,
     popularity: 62,
     description:
       "A quilted blush crossbody on a fine gold chain, sized for the essentials and nothing more.",
@@ -178,6 +188,7 @@ export const products: Product[] = [
     image: img("photo-1592945403244-b3fbafd7f539"),
     sizes: [],
     badge: "Sale",
+    inStock: true,
     popularity: 93,
     description:
       "Champagne accord over white florals and warm amber — the house signature scent, in a refillable glass bottle.",
@@ -195,6 +206,7 @@ export const products: Product[] = [
     sizes: [],
     badge: "New",
     isNew: true,
+    inStock: true,
     popularity: 66,
     description:
       "Dark amber, cracked black pepper, and a low note of leather — for evenings that run late.",
@@ -208,9 +220,10 @@ export const products: Product[] = [
     originalPrice: 8000,
     rating: 4.4,
     reviewCount: 29,
-    image: img("photo-1554062614-6da4fa0afd91"),
+    image: img("photo-1533867617858-e7b97e060509"),
     sizes: [37, 38, 39, 40],
     badge: "Sale",
+    inStock: true,
     popularity: 55,
     description:
       "A glossy patent kitten heel in rosé — end-of-season pricing on a year-round staple.",
@@ -224,12 +237,13 @@ export const products: Product[] = [
     originalPrice: 6200,
     rating: 4.3,
     reviewCount: 22,
-    image: img("photo-1449505278894-297fdb3edbc1"),
+    image: img("photo-1515347619252-60a4bf4fff4f"),
     sizes: [36, 38, 39, 41],
     badge: "Sale",
+    inStock: false,
     popularity: 48,
     description:
-      "Soft charcoal suede with a delicate ankle strap — final units, final markdown.",
+      "Soft charcoal suede with a delicate ankle strap — final units archive piece, currently sold out.",
   },
   {
     id: "p15",
@@ -243,6 +257,7 @@ export const products: Product[] = [
     image: img("photo-1517841905240-472988babdf9"),
     sizes: [36, 37, 38, 39, 40, 41],
     badge: "Sale",
+    inStock: true,
     popularity: 79,
     description:
       "Champagne-gold ankle ties finish this near-black heel — the piece guests will ask about.",
@@ -259,6 +274,7 @@ export const products: Product[] = [
     image: img("photo-1603487742131-4160ec999306"),
     sizes: [36, 37, 38, 39, 40, 41],
     badge: "Sale",
+    inStock: true,
     popularity: 60,
     description:
       "A soft leather flat sandal with a coral piped trim, made for every day of the season.",

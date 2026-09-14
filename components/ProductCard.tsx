@@ -19,6 +19,8 @@ export default function ProductCard({
   const toggleWishlist = useWishlistStore((s) => s.toggle);
   const isWished = useWishlistStore((s) => s.has(product.id));
 
+  const isOutOfStock = product.inStock === false;
+
   const discount =
     product.originalPrice > product.price
       ? Math.round(
@@ -28,6 +30,7 @@ export default function ProductCard({
       : 0;
 
   const handleAddToCart = () => {
+    if (isOutOfStock) return;
     const size = selectedSize ?? product.sizes[0] ?? 0;
     addItem({
       productId: product.id,
@@ -41,7 +44,7 @@ export default function ProductCard({
   };
 
   return (
-    <div className="group">
+    <div className={`group ${isOutOfStock ? "opacity-85" : ""}`}>
       <div
         onClick={() => onSelect?.(product.id)}
         className="relative overflow-hidden bg-white/60 aspect-[3/4] cursor-pointer"
@@ -49,16 +52,24 @@ export default function ProductCard({
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06]"
+          className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06] ${
+            isOutOfStock ? "grayscale-[25%]" : ""
+          }`}
         />
-        {product.badge && (
-          <span
-            className={`absolute top-3 left-3 text-[11px] tracking-wide px-2.5 py-1 text-white ${
-              product.badge === "Sale" ? "bg-coral" : "bg-charcoal"
-            }`}
-          >
-            {product.badge === "Sale" ? `-${discount}%` : "New"}
+        {isOutOfStock ? (
+          <span className="absolute top-3 left-3 text-[11px] tracking-widest uppercase px-2.5 py-1 bg-charcoal text-blush font-medium">
+            Sold Out
           </span>
+        ) : (
+          product.badge && (
+            <span
+              className={`absolute top-3 left-3 text-[11px] tracking-wide px-2.5 py-1 text-white ${
+                product.badge === "Sale" ? "bg-coral" : "bg-charcoal"
+              }`}
+            >
+              {product.badge === "Sale" ? `-${discount}%` : "New"}
+            </span>
+          )
         )}
         <button
           onClick={(e) => {
@@ -111,9 +122,12 @@ export default function ProductCard({
             {product.sizes.map((size) => (
               <button
                 key={size}
+                disabled={isOutOfStock}
                 onClick={() => setSelectedSize(size)}
                 className={`text-[11px] w-8 h-8 border transition-colors ${
-                  selectedSize === size
+                  isOutOfStock
+                    ? "border-charcoal/10 text-charcoal/30 cursor-not-allowed bg-transparent"
+                    : selectedSize === size
                     ? "border-charcoal bg-charcoal text-blush"
                     : "border-charcoal/20 text-ink/70 hover:border-charcoal/60"
                 }`}
@@ -125,14 +139,19 @@ export default function ProductCard({
         )}
 
         <button
+          disabled={isOutOfStock}
           onClick={handleAddToCart}
           className={`w-full py-2.5 text-[13px] tracking-wide transition-colors flex items-center justify-center gap-2 ${
-            justAdded
+            isOutOfStock
+              ? "bg-charcoal/15 text-charcoal/40 cursor-not-allowed border border-charcoal/10"
+              : justAdded
               ? "bg-ink text-blush"
               : "bg-charcoal text-blush hover:bg-ink"
           }`}
         >
-          {justAdded ? (
+          {isOutOfStock ? (
+            "Sold Out"
+          ) : justAdded ? (
             <>
               <Check size={14} /> Added
             </>
